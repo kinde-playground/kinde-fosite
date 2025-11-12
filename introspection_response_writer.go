@@ -217,7 +217,7 @@ func (f *Fosite) WriteIntrospectionResponse(ctx context.Context, rw http.Respons
 			response["exp"] = r.GetAccessRequester().GetSession().GetExpiresAt(AccessToken).Unix()
 		}
 	}
-	
+
 	if r.GetAccessRequester().GetClient().GetID() != "" {
 		response["client_id"] = r.GetAccessRequester().GetClient().GetID()
 	}
