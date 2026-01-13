@@ -208,9 +208,16 @@ func (f *Fosite) WriteIntrospectionResponse(ctx context.Context, rw http.Respons
 		}
 	}
 
-	if !r.GetAccessRequester().GetSession().GetExpiresAt(AccessToken).IsZero() {
-		response["exp"] = r.GetAccessRequester().GetSession().GetExpiresAt(AccessToken).Unix()
+	if r.GetTokenUse() == RefreshToken {
+		if !r.GetAccessRequester().GetSession().GetExpiresAt(RefreshToken).IsZero() {
+			response["exp"] = r.GetAccessRequester().GetSession().GetExpiresAt(RefreshToken).Unix()
+		}
+	} else {
+		if !r.GetAccessRequester().GetSession().GetExpiresAt(AccessToken).IsZero() {
+			response["exp"] = r.GetAccessRequester().GetSession().GetExpiresAt(AccessToken).Unix()
+		}
 	}
+
 	if r.GetAccessRequester().GetClient().GetID() != "" {
 		response["client_id"] = r.GetAccessRequester().GetClient().GetID()
 	}
